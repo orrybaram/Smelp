@@ -21,7 +21,10 @@ $('#VendorsTable').find('tr').each(function() {
 
                 var smelp_rating = $(
                         '<div class="smelp-rating">' +
-                            '<a href="' + restaurant.url + '" target="_blank">' + restaurant.rating  + '</a>' +
+                            '<a href="' + restaurant.url + '" target="_blank">' + 
+                                '<img src="' + chrome.extension.getURL('img/yelp-icon.png') + '" />' +
+                                restaurant.rating  + 
+                            '</a>' +
                         '</div>'
                     );
                 $ratingCell.append(smelp_rating);    

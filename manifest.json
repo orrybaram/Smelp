@@ -15,10 +15,13 @@
     "css": ["smelp.css"] 
   }],
 
+  "web_accessible_resources": [
+      "img/*"
+  ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
   }
 }
