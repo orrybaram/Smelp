@@ -9,7 +9,6 @@ $(function() {
     // ----------------------- MAIN RESTAURANT LIST ----------------------- //
     if($('#RestaurantResults').length) {
         
-        
         // Get the location by scraping the source code
         var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1];
 
@@ -27,6 +26,8 @@ $(function() {
                         success(function(data) {
                             if(!data.error && data.businesses.length) {
                                 var $smelp_rating = createSmelpRating(data.businesses[0])
+                                
+                                // Make sure it's not already there
                                 if($this.find('.smelp-rating').length === 0) {
                                     $ratingCell.prepend($smelp_rating).addClass('ratings-got-smelped');
                                     $smelp_rating.fadeIn();
@@ -40,7 +41,6 @@ $(function() {
             setTimeout(function() { getYelpRatingsForList() }, 1000);    
         }
         getYelpRatingsForList();
-
     }
 
 
@@ -62,6 +62,7 @@ $(function() {
     }
 });
 
+// Template for the Rating
 function createSmelpRating(restaurant) {
     return $('<div class="smelp-rating">' +
                 '<a title="View on Yelp.com" href="' + restaurant.url + '" target="_blank">' + 
