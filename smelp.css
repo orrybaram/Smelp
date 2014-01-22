@@ -53,6 +53,10 @@
 	width: 45px;
 	opacity: .5;
 }
+.ratings-got-smelped > a {
+	font-size: 9px;
+	opacity: .5;
+}
 .ratings-got-smelped > span {
 	font-size: 9px;
 	opacity: .3;
@@ -62,5 +66,8 @@ tr:hover .ratings-got-smelped > a img {
 	opacity: 1;
 }
 tr:hover .ratings-got-smelped > span {
+	opacity: 1;
+}
+tr:hover .ratings-got-smelped > a {
 	opacity: 1;
 }
