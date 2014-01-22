@@ -1,10 +1,46 @@
-.smelp-rating {
-
+.smelp-rating a:hover {
+	text-decoration: none;
 }
 
-.smelp-rating img {
+.smelp-rating .yelp_icon {
 	position: relative;
 	width: 15px;
 	top: 3px;
-	margin-right: 3px;;
+	margin-right: 3px;
 }
+
+.smelp-rating .smelp_rating_img {
+	margin: 0 3px;
+}
+
+.smelp-rating span {
+	position: relative;
+	top: -2px;
+	color: #BDBDBD;
+}
+
+#RestaurantResults .smelp-rating .smelp_rating_img {
+	width: 55px;
+	top: 1px;
+	position: relative;
+	margin: 0;
+}
+
+#RestaurantResults .smelp-rating span {
+	font-size: 10px;
+}
+
+#RatingBox .smelp-rating {
+	display: inline-block;
+	border-left: 2px solid #D8D8D8;
+	padding: 0 0 0 5px;
+	margin: 0 0 0 5px;
+	height: 20px;
+	position: relative;
+	top: 1px;
+}
+
+#RatingBox .smelp-rating .smelp_rating_img {
+	top: 3px;
+}
+
