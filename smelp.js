@@ -54,8 +54,7 @@ $(function() {
         $.getJSON(url).
             success(function(data) {
                 if(!data.error && data.businesses.length) {
-                    if($('#RestaurantPage').find('.smelp-rating').length === 0) {
-                    var smelp_rating = createSmelpRating(data.businesses[0])
+                    var smelp_rating = createSmelpRating(data.businesses[0]);
                     $('#PriceRange').before(smelp_rating);
                 }
             })
