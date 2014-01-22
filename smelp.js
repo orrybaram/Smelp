@@ -1,4 +1,4 @@
-var TESTING = true;
+var TESTING = false;
 var ROOT_URL = "http://netflixrottenizer.appspot.com/yelp/";
 if (TESTING) ROOT_URL = "http://localhost:11090/yelp";
 
@@ -54,7 +54,7 @@ $(function() {
         $.getJSON(url).
             success(function(data) {
                 if(!data.error && data.businesses.length) {
-                    console.log(data);
+                    if($('#RestaurantPage').find('.smelp-rating').length === 0) {
                     var smelp_rating = createSmelpRating(data.businesses[0])
                     $('#PriceRange').before(smelp_rating);
                 }
