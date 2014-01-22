@@ -1,3 +1,8 @@
+.smelp-rating {
+	width: 75px;
+	display: none;
+}
+
 .smelp-rating a:hover {
 	text-decoration: none;
 }
@@ -17,6 +22,7 @@
 	position: relative;
 	top: -2px;
 	color: #BDBDBD;
+
 }
 
 #RestaurantResults .smelp-rating .smelp_rating_img {
@@ -28,19 +34,33 @@
 
 #RestaurantResults .smelp-rating span {
 	font-size: 10px;
+	display: block;
+	margin-bottom: 10px;
 }
 
-#RatingBox .smelp-rating {
-	display: inline-block;
-	border-left: 2px solid #D8D8D8;
-	padding: 0 0 0 5px;
-	margin: 0 0 0 5px;
-	height: 20px;
-	position: relative;
-	top: 1px;
+#RestaurantPage .smelp-rating {
+	display: block;
+	margin: 0 0 15px 0;
+	width: auto;
 }
 
-#RatingBox .smelp-rating .smelp_rating_img {
+#RestaurantPage .smelp-rating .smelp_rating_img {
 	top: 3px;
+	position: relative;
 }
 
+.ratings-got-smelped > a img {
+	width: 45px;
+	opacity: .5;
+}
+.ratings-got-smelped > span {
+	font-size: 9px;
+	opacity: .3;
+}
+
+tr:hover .ratings-got-smelped > a img {
+	opacity: 1;
+}
+tr:hover .ratings-got-smelped > span {
+	opacity: 1;
+}
