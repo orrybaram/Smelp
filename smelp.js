@@ -1,6 +1,6 @@
-var TESTING = false;
-var ROOT_URL = "http://netflixrottenizer.appspot.com/yelp/";
-if (TESTING) ROOT_URL = "http://localhost:11090/yelp";
+var TESTING = 1;
+var ROOT_URL = "http://netflixrottenizer.appspot.com/";
+if (TESTING) ROOT_URL = "http://localhost:9080/";
 
 var new_stuff_added = false;
 
@@ -21,7 +21,7 @@ $(function() {
                 
                     var $ratingCell = $this.find('td:nth-child(4)')
 
-                    var url = ROOT_URL + '?term=' + restaurant + '&location=' + search_zip + '&limit=1'
+                    var url = ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=1'
                     $.getJSON(url).
                         success(function(data) {
                             if(!data.error && data.businesses.length) {
@@ -49,14 +49,25 @@ $(function() {
     if($('#RestaurantPage').length) {
         var restaurant_name = $('#VendorName').text();
         var restaurant_zip = $('[itemprop="postalCode"]').text();
-        var url = ROOT_URL + '?term=' + restaurant_name + '&location=' + restaurant_zip + '&limit=1'
-
+        var url = ROOT_URL + 'yelp?term=' + restaurant_name + '&location=' + restaurant_zip + '&limit=1';
         $.getJSON(url).
             success(function(data) {
                 if(!data.error && data.businesses.length) {
                     var smelp_rating = createSmelpRating(data.businesses[0]);
                     $('#PriceRange').before(smelp_rating);
                 }
+            })
+        ;
+
+        // Foursquare Info
+        $.get(ROOT_URL + 'foursquare/search?query=' + restaurant_name + '&near=' + restaurant_zip + '&limit=1').
+            then(function(data) {
+                console.log(data)
+                $.getJSON(ROOT_URL + 'foursquare/venue?' + data).
+                    success(function(res) {
+                        console.log(res)
+                    })
+                ;
             })
         ;
     }
