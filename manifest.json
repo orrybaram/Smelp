@@ -1,6 +1,6 @@
 {
   "name": "Smelp",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "manifest_version": 2,
   "description": "Get Yelp information in Seamless",
   "permissions": [
