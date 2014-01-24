@@ -81,11 +81,10 @@ $(function() {
         ;
     }
 
-    // Hack for the Tabs
-    $('#RestaurantPage').on('click', '#MenuPlusTabs a', function() {
+    // Tab Handler
+    $('#RestaurantPage').on('click', '#MenuPlusTabs a', function(e) {
         var $tips = $("#smelp-foursquare-tips");
         
-        // Let the page load a bit
         setTimeout(function() {
             var hash = window.location.hash
 
@@ -95,15 +94,14 @@ $(function() {
             else if ( hash === '#photos-tab') {
                 whenPhotosDoneLoading( addFoursquarePhotos );
             } 
-            else if (hash !== '#foursquare-tips') {
+            
+            if (hash !== '#foursquare-tips') {
                 $tips.hide();
             } 
             
-        }, 10)
+        })
         
     });
-
-
 
 
     function whenPhotosDoneLoading(callback) {
@@ -132,37 +130,55 @@ function createSmelpRating(restaurant) {
 }
 
 function addFoursquarePhotos(photos) {
-    console.log('add em')
     if(photos && $('.smelp-photos').length === 0) {
         
-        var $note = '<p class="smelp-note">Additional pictures added by Smelp, provide by Foursquare</p>'
+        var $note = '<p class="smelp-note">Additional pictures added by Smelp, provided by Foursquare</p>'
         var $smelp_photos = $('<div class="smelp-photos"></div>');
+        $smelp_photos.append($note);
         for (var i = 0; i < photos.length; i++) {
             var photo = photos[i];
             var $photo = '<a href="' + photo.url + '" target="_blank"><img class="thumb smelp-photo" src="' + photo.sizes.items[1].url + '"/></a>'
             $smelp_photos.append($photo)
         };
-        $smelp_photos.append($note);
-
-        $('.photos-tab').append($smelp_photos);    
+        
+        $('.photos-tab').append($smelp_photos);
     }
 }
 
 
 
 function addFoursquareTips(tips) {
-    var $tipsContainer = '<div id="smelp-foursquare-tips" class="foursquare-tips-tab" style="display: none;">hahaha</div>';
-    $('#MenuPlusContent').append($tipsContainer);
+    
+    // Add Tab
     $('#MenuPlusTabs').append(
         '<li><h2 class="tab-header">' +
-            '<a href="#foursquare-tips" data-tab="#foursquare-tips-tab">User Tips</a>' +
+            '<a href="#foursquare-tips" data-tab="#foursquare-tips-tab">User Tips <span class="count">' + tips.length + '</span></a>' +
         '</h2></li>');
     
+    // Add Tip Content Wrapper
+    var $tipsContainer = $('<div id="smelp-foursquare-tips" class="foursquare-tips-tab" style="display: none;"></div>');
+    var $note = '<p class="smelp-note">Tips added by Smelp, provided by Foursquare</p>'
+
+    $('#MenuPlusContent').append($tipsContainer);
+    $tipsContainer.append($note);
+
     console.log(tips);
     if(tips) {
         for (var i = 0; i < tips.length; i++) {
-            var tip = tips[i];
+            $tipsContainer.append( createSmelpTip( tips[i] ));
         };
     }
+}
+
+function createSmelpTip(tip) {
+    var lastName = tip.user.lastName || '';
+    return $('<a href="' + tip.canonicalUrl + '" target="_blank" class="foursquare-tip">' +
+                '<img class="avatar" src="' + tip.user.photo + '" />' +
+                '<div class="tip-info">' +
+                    '<h4>' + tip.text + '</h4>' +
+                    '<p>' + tip.user.firstName + ' ' + lastName + '<p/>' +
+                '</div>' +
+            '</a>'
+            );
 }
 

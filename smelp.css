@@ -22,7 +22,29 @@
 	position: relative;
 	top: -2px;
 	color: #BDBDBD;
+}
 
+.ratings-got-smelped > a img {
+	width: 45px;
+	opacity: .5;
+}
+.ratings-got-smelped > a {
+	font-size: 9px;
+	opacity: .5;
+}
+.ratings-got-smelped > span {
+	font-size: 9px;
+	opacity: .3;
+}
+
+tr:hover .ratings-got-smelped > a img {
+	opacity: 1;
+}
+tr:hover .ratings-got-smelped > span {
+	opacity: 1;
+}
+tr:hover .ratings-got-smelped > a {
+	opacity: 1;
 }
 
 #RestaurantResults .smelp-rating .smelp_rating_img {
@@ -49,32 +71,67 @@
 	position: relative;
 }
 
+
+#RestaurantPage .tab-header .count {
+	padding: 2px 6px;
+	background-color: #E9E6E6;
+	border-radius: 100%;
+	font-weight: bold;
+	font-size: 10px;
+	color: #979696;
+	margin: 0 0 0 2px;
+	border-bottom: 1px solid #FFF;
+}
+
+
 #RestaurantPage .smelp-photo {
 	width: 142px;
 	height: 89px;
 }
 
-#RestaurantPage .smelp-note { clear: both; }
+#RestaurantPage .smelp-note { clear: both; border-bottom: 1px solid #DDD7D7; }
+#RestaurantPage .foursquare-tips-tab .smelp-note { border:0; }
 
-.ratings-got-smelped > a img {
-	width: 45px;
-	opacity: .5;
-}
-.ratings-got-smelped > a {
-	font-size: 9px;
-	opacity: .5;
-}
-.ratings-got-smelped > span {
-	font-size: 9px;
-	opacity: .3;
+#RestaurantPage .foursquare-tip {
+	padding: 10px 0;
+	border-top: 1px solid #E6E6E6;
+	margin: 0;
+	display: block;
+	color: #666;
+	text-decoration: none;
 }
 
-tr:hover .ratings-got-smelped > a img {
-	opacity: 1;
+#RestaurantPage .foursquare-tip:hover h4 {
+	color: #046451;
 }
-tr:hover .ratings-got-smelped > span {
-	opacity: 1;
+
+#RestaurantPage .foursquare-tip:first-child { border:0; }
+
+#RestaurantPage .foursquare-tip .avatar {
+	width: 40px;
+	border-radius: 100%;
+	display: inline-block;
+	margin: 0 10px 0 0;
+	border: 2px solid #FFF;
+	box-shadow: 0 1px 2px #C5C0C0;
 }
-tr:hover .ratings-got-smelped > a {
-	opacity: 1;
+
+#RestaurantPage .foursquare-tip .tip-info {
+	display: inline-block;
+	vertical-align: top;
+	width: 85%;
 }
+
+#RestaurantPage .foursquare-tip h4 {
+	margin-top: 5px;
+	line-height: 15px;
+	margin-bottom: 5px;
+}
+
+#RestaurantPage .foursquare-tip p {
+	margin:0;
+	color: #AAA8A8;
+	line-height: 10px;
+}
+
+
