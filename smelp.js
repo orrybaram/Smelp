@@ -1,4 +1,4 @@
-var TESTING = 1;
+var TESTING = false;
 var ROOT_URL = "http://netflixrottenizer.appspot.com/";
 if (TESTING) ROOT_URL = "http://localhost:9080/";
 
