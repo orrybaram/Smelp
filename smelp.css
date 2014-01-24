@@ -49,6 +49,13 @@
 	position: relative;
 }
 
+#RestaurantPage .smelp-photo {
+	width: 142px;
+	height: 89px;
+}
+
+#RestaurantPage .smelp-note { clear: both; }
+
 .ratings-got-smelped > a img {
 	width: 45px;
 	opacity: .5;

@@ -47,6 +47,7 @@ $(function() {
     // ----------------------- RESTAURANT DETAIL PAGE ----------------------- //
     
     if($('#RestaurantPage').length) {
+
         var restaurant_name = $('#VendorName').text();
         var restaurant_zip = $('[itemprop="postalCode"]').text();
         var url = ROOT_URL + 'yelp?term=' + restaurant_name + '&location=' + restaurant_zip + '&limit=1';
@@ -60,12 +61,15 @@ $(function() {
         ;
 
         // Foursquare Info
+        // first we search for the venue by restaurant name and zip
         $.get(ROOT_URL + 'foursquare/search?query=' + restaurant_name + '&near=' + restaurant_zip + '&limit=1').
+            
+            // If that succeeds we take the returned venue id and get all of the venue data
             then(function(data) {
-                console.log(data)
                 $.getJSON(ROOT_URL + 'foursquare/venue?' + data).
-                    success(function(res) {
-                        console.log(res)
+                    success(function(venue) {
+                        console.log(venue)
+                        addFoursquarePhotos(venue.response.venue.photos.groups[1].items)
                     })
                 ;
             })
@@ -84,5 +88,21 @@ function createSmelpRating(restaurant) {
             '</div>'
         )
     ;
+}
+
+function addFoursquarePhotos(photos) {
+    console.log(photos)
+    var $note = '<p class="smelp-note">Additional pictures added by Smelp, provide by Foursquare</p>'
+    for (var i = 0; i < photos.length; i++) {
+        var photo = photos[i];
+
+        var $photo = '<a href="' + photo.url + '" target="_blank"><img class="thumb smelp-photo" src="' + photo.sizes.items[1].url + '"/></a>'
+
+
+        $('.photos-tab #menuPlusImagesContent')
+            .append($photo)
+    };
+    $('.photos-tab').append($note)
+
 }
 
