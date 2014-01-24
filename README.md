@@ -6,8 +6,8 @@ A chrome extension that loads up Yelp ratings on top of Seamless listings.
 
 *Changelog*
 
-Added Foursquare API
-Added User Tips
-Added Additional Photos
+* Added Foursquare API
+* Added User Tips
+* Added Additional Photos
 
 
