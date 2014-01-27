@@ -137,7 +137,7 @@ function addFoursquarePhotos(photos) {
         $smelp_photos.append($note);
         for (var i = 0; i < photos.length; i++) {
             var photo = photos[i];
-            var $photo = '<a href="' + photo.url + '" target="_blank"><img class="thumb smelp-photo" src="' + photo.sizes.items[1].url + '"/></a>'
+            var $photo = '<a href="' + photo.url + '" target="_blank" class="smelp-photo thumb" style="background-image:url(\''+ photo.sizes.items[1].url + ' \')"></a>'
             $smelp_photos.append($photo)
         };
         

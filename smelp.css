@@ -87,6 +87,14 @@ tr:hover .ratings-got-smelped > a {
 #RestaurantPage .smelp-photo {
 	width: 142px;
 	height: 89px;
+	float: left;
+	display: block;
+	background: #F7F7F7;
+	margin: 0 30px 10px 10px;
+	padding: 0;
+	border: 1px solid #DDD;
+	position: relative;
+	background-size: 100%;
 }
 
 #RestaurantPage .smelp-note { clear: both; border-bottom: 1px solid #DDD7D7; }
