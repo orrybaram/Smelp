@@ -13,13 +13,13 @@ $(function() {
         var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1];
 
         function getYelpRatingsForList() {
-            var $vendorList = $('#VendorsTable');
-            $vendorList.find('tr').each(function() {
+            var $vendorList = $('#RestaurantResults');
+            $vendorList.find('.v-block').each(function() {
                 var $this = $(this);
                 if(!$this.hasClass('smelped')) {
-                    var restaurant = $this.find('h3 .tooltip-header').text().replace(/[^\w\s]/gi, ''); // get rid of special characters
+                    var restaurant = $this.find('.restaurant-name a').text().replace(/[^\w\s]/gi, ''); // get rid of special characters
                 
-                    var $ratingCell = $this.find('td:nth-child(4)')
+                    var $ratingCell = $this.find('.restaurant-details')
 
                     var url = ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=1'
                     $.getJSON(url).
