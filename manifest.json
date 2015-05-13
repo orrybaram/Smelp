@@ -11,7 +11,7 @@
   ],
   "content_scripts": [{ 
     "matches": ["http://*.seamless.com/*"], 
-    "js": ["jquery.min.js", "smelp.js"], 
+    "js": ["jquery.min.js","lodash.js", "smelp.js"], 
     "css": ["smelp.css"] 
   }],
 

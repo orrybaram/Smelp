@@ -4,42 +4,23 @@ if (TESTING) ROOT_URL = "http://localhost:9080/";
 
 var new_stuff_added = false;
 
+var cached_data = [];
+
+
+chrome.storage.local.get('smelp_cache', function(data) {
+    console.log(data.smelp_cache);
+    if (data.smelp_cache) {
+        cached_data = data.smelp_cache;
+    }
+});
+
+
 $(function() {
     
     // ----------------------- MAIN RESTAURANT LIST ----------------------- //
     if($('#RestaurantResults').length) {
         
         // Get the location by scraping the source code
-        var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1];
-
-        function getYelpRatingsForList() {
-            var $vendorList = $('#RestaurantResults');
-            $vendorList.find('.v-block').each(function() {
-                var $this = $(this);
-                if(!$this.hasClass('smelped')) {
-                    var restaurant = $this.find('.restaurant-name a').text().replace(/[^\w\s]/gi, ''); // get rid of special characters
-                
-                    var $ratingCell = $this.find('.restaurant-details')
-
-                    var url = ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=1'
-                    $.getJSON(url).
-                        success(function(data) {
-                            if(!data.error && data.businesses.length) {
-                                var $smelp_rating = createSmelpRating(data.businesses[0])
-                                
-                                // Make sure it's not already there
-                                if($this.find('.smelp-rating').length === 0) {
-                                    $ratingCell.prepend($smelp_rating).addClass('ratings-got-smelped');
-                                    $smelp_rating.fadeIn();
-                                }
-                            }
-                            $this.addClass('smelped');
-                        })
-                    ;
-                }
-            });
-            setTimeout(function() { getYelpRatingsForList() }, 1000);    
-        }
         getYelpRatingsForList();
     }
 
@@ -99,22 +80,98 @@ $(function() {
                 $tips.hide();
             } 
             
-        })
-        
+        });
     });
-
-
-    function whenPhotosDoneLoading(callback) {
-        if ($('#menuPlusImagesContent').children().length === 0) {
-            setTimeout(function() { 
-                whenPhotosDoneLoading(callback) 
-            }, 1000)
-            return false;
-        } else {
-            if (callback) callback(photos);
-        }
-    }
 });
+
+function whenPhotosDoneLoading(callback) {
+    if ($('#menuPlusImagesContent').children().length === 0) {
+        setTimeout(function() { 
+            whenPhotosDoneLoading(callback) 
+        }, 1000)
+        return false;
+    } else {
+        if (callback) callback(photos);
+    }
+}
+
+function getYelpRatingsForList() {
+    var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1].trim();
+    var $vendorList = $('#RestaurantResults');
+    $vendorList.find('.v-block').each(function() {
+        
+        var $this = $(this);
+        if($this.hasClass('smelped')) return true;
+        
+        var business = null;
+        var restaurant = $this.find('.restaurant-name a').text().replace(/restaurant/gi, "").replace(/ *\([^)]*\) */g, "").replace(/[^\w\s]/gi, '').trim(); // get rid of special characters
+        var vendorName = $this.find('.restaurant-name a').attr('rel');
+        var $ratingCell = $this.find('.restaurant-details');
+        $this.addClass('smelped');
+        // See if we have it locally
+        for (var i = 0; i < cached_data.length; i++) {
+            if(cached_data[i].vendor_name === vendorName) {
+                business = cached_data[i];
+                break;
+            }
+        }
+
+        // If we do, load cached data
+        if(business) {
+            var $smelp_rating = createSmelpRating(business);
+            // Make sure it's not already there
+            if($this.find('.smelp-rating').length === 0) {
+                $ratingCell.prepend($smelp_rating).addClass('ratings-got-smelped');
+                $smelp_rating.fadeIn();
+            }
+        } 
+        
+        // If we don't, hit the server
+        else {
+            var url = encodeURI(ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=3');
+            
+            console.log(url);
+
+
+            $.getJSON(url).then(function(data) {
+
+                console.log(data);
+
+
+                if(!data.error && data.businesses.length) {
+
+                    business = data.businesses[0];
+                    business.vendor_name = vendorName;
+                    
+                    console.log(business);
+
+                    var add_it_to_cache = true;
+                    for (var i = 0; i < cached_data.length; i++) {
+                        if(cached_data[i].id !== business.id) continue;
+                        else {
+                            add_it_to_cache = false;
+                            break;
+                        }
+                    }
+                    if(add_it_to_cache) {
+                        cached_data.push(business);
+                        chrome.storage.local.set({smelp_cache: cached_data});
+                    }
+                    
+                    var $smelp_rating = createSmelpRating(business);
+                    // Make sure it's not already there
+                    if($this.find('.smelp-rating').length === 0) {
+                        $ratingCell.prepend($smelp_rating).addClass('ratings-got-smelped');
+                        $smelp_rating.fadeIn();
+                    }
+                }
+            });
+        }
+    });
+    
+    setTimeout(function() { getYelpRatingsForList() }, 1000);    
+}
+
 
 // Template for the Rating
 function createSmelpRating(restaurant) {
@@ -128,6 +185,8 @@ function createSmelpRating(restaurant) {
         )
     ;
 }
+
+
 
 function addFoursquarePhotos(photos) {
     if(photos && $('.smelp-photos').length === 0) {
