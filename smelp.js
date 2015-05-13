@@ -129,22 +129,13 @@ function getYelpRatingsForList() {
         // If we don't, hit the server
         else {
             var url = encodeURI(ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=3');
-            
-            console.log(url);
-
-
             $.getJSON(url).then(function(data) {
-
-                console.log(data);
-
 
                 if(!data.error && data.businesses.length) {
 
                     business = data.businesses[0];
                     business.vendor_name = vendorName;
                     
-                    console.log(business);
-
                     var add_it_to_cache = true;
                     for (var i = 0; i < cached_data.length; i++) {
                         if(cached_data[i].id !== business.id) continue;
