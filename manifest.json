@@ -10,7 +10,7 @@
     "storage"
   ],
   "content_scripts": [{ 
-    "matches": ["http://*.seamless.com/*"], 
+    "matches": ["http://*.seamless.com/*", "https://*.seamless.com/*"], 
     "js": ["jquery.min.js","lodash.js", "smelp.js"], 
     "css": ["smelp.css"] 
   }],

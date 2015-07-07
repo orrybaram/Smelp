@@ -1,5 +1,5 @@
 var TESTING = false;
-var ROOT_URL = "http://netflixrottenizer.appspot.com/";
+var ROOT_URL = "https://netflixrottenizer.appspot.com/";
 if (TESTING) ROOT_URL = "http://localhost:9080/";
 
 var new_stuff_added = false;
@@ -16,9 +16,9 @@ chrome.storage.local.get('smelp_cache', function(data) {
 
 
 $(function() {
-    
+
     // ----------------------- MAIN RESTAURANT LIST ----------------------- //
-    if($('#RestaurantResults').length) {
+    if($('.searchResults-items-container').length) {
         
         // Get the location by scraping the source code
         getYelpRatingsForList();
@@ -96,17 +96,23 @@ function whenPhotosDoneLoading(callback) {
 }
 
 function getYelpRatingsForList() {
-    var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1].trim();
-    var $vendorList = $('#RestaurantResults');
-    $vendorList.find('.v-block').each(function() {
+
+    
+    // var search_zip = $('body').html().match("addressJs.preloadedZip \= '(.*)\'\;")[1].trim();
+
+    var search_zip = $('[name="places-autocomplete"]').val();
+
+
+    var $vendorList = $('.searchResults-items-container');
+    $vendorList.find('.searchResult').each(function() {
         
         var $this = $(this);
         if($this.hasClass('smelped')) return true;
         
         var business = null;
-        var restaurant = $this.find('.restaurant-name a').text().replace(/restaurant/gi, "").replace(/ *\([^)]*\) */g, "").replace(/[^\w\s]/gi, '').trim(); // get rid of special characters
-        var vendorName = $this.find('.restaurant-name a').attr('rel');
-        var $ratingCell = $this.find('.restaurant-details');
+        var restaurant = $this.find('.restaurant-name').text().replace(/restaurant/gi, "").replace(/ *\([^)]*\) */g, "").replace(/[^\w\s]/gi, '').trim(); // get rid of special characters
+        var vendorName = $this.find('.restaurantCard-search').attr('id').replace('ghs-search-results-restaurantId-', "");
+        var $ratingCell = $this.find('.rating-container');
         $this.addClass('smelped');
         // See if we have it locally
         for (var i = 0; i < cached_data.length; i++) {
@@ -130,6 +136,9 @@ function getYelpRatingsForList() {
         else {
             var url = encodeURI(ROOT_URL + 'yelp?term=' + restaurant + '&location=' + search_zip + '&limit=3');
             $.getJSON(url).then(function(data) {
+
+                console.log(data);
+
 
                 if(!data.error && data.businesses.length) {
 
